@@ -1,7 +1,24 @@
-require 'rubygems'
-require 'appscript'
+require 'rubygems'  # Rails console safe ???
+
+# will NOT crash if gem is missing on Load, only on run
+# so-- if you are NOT on osx, don't run this code
+
+begin
+ require 'appscript'
+ # to install:  see http://appscript.sourceforge.net/rb-appscript
+rescue LoadError
+  Appscript = false
+rescue MissingSourceFileError
+  Appscript = false
+end
+
 
 class Terminal
+  
+  def self.available?
+    # this actually "loads" the appscriot stuff, so it can be slow
+    (Appscript && app && process ? true : false) rescue false
+  end
   
   @@window = 1
   @@tab = "selected_tab"

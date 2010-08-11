@@ -1,6 +1,17 @@
 Use  Terminal.rb to control  Mac OS X Terminal App
 
-requires Appscript gem
+requires:  
+
+    appscript gem
+
+Caveat Emptor: If that is not available (not installed, not osx, etc),
+
+    Terminal.available?  => false
+
+and all other methods will MAY raise errors.
+
+(Terminal.available? loads the appscript terminal "app" & "process" objects into the class,
+so it can be slow-- first time)
 
 
 new windows / tabs: 
