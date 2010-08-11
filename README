@@ -63,3 +63,9 @@ Terminal.tab.new.do_script("ls").move(1)
 You can examine the target...   
 
     Terminal.window(2).tab(1).target
+    
+Sigh....
+--------
+
+No idea why, but sometimes Terminal.process stops working correctly / running.
+When it happens-- please let me know!

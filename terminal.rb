@@ -25,6 +25,7 @@ class Terminal
   end
   
   def self.title=(title)
+    return self if !title
     # this only works on the current active window
     process.keystroke("I", :using => :command_down)
     process.windows[1].tab_groups[1].text_fields[1].value.set(title)
@@ -45,7 +46,7 @@ class Terminal
   end
   
   def self.settings_set=(settings_set)
-    self.target.current_settings.set( app.settings_sets[settings_set] )
+    self.target.current_settings.set( app.settings_sets[settings_set] ) if settings_set
     self
   end
   
@@ -79,14 +80,14 @@ class Terminal
   def self.target
     # target "window" (really a tab)
     case @@tab
-     when Integer
-        app.windows[@@window].tabs[@@tab] 
-     when "selected_tab", :selected_tab, :selected
-       app.windows[@@window].selected_tab
-     else
-       # current tab for window-- usually same as selected
-       app.windows[@@window]
-     end
+    when Integer
+      app.windows[@@window].tabs[@@tab] 
+    when "selected_tab", :selected_tab, :selected
+      app.windows[@@window].selected_tab
+    else
+      # current tab for window-- usually same as selected
+      app.windows[@@window]
+    end
   end
   
 end
