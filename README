@@ -1,0 +1,65 @@
+Use  Terminal.rb to control  Mac OS X Terminal App
+
+requires Appscript gem
+
+
+new windows / tabs: 
+-------------------
+
+    Terminal.window.new    # same as Terminal.new
+
+    Terminal.window.new(:title=>"New Window")
+
+    Terminal.tab.new(:title=>"New Tab")
+    
+    Terminal.tab.new(:title=>"Green", :settings_set=>"Grass")
+
+Tabs can only be made in the current window
+Making a new window makes a tab (that is, Terminal app windows always have 1 tab)
+So, to make 2 new tabs in a window...
+
+    Terminal.new(:title=>"first tab").tab.new(:title=>"second tab")
+
+(read that left to right!)
+
+Titles (always the tab title even for windows per Terminal App)
+---------------------------------------------------------------
+
+    Terminal.title = "new title"
+
+Sadly, title operates on the active tab...  so you have to move tabs first...
+then move back...
+
+    Terminal.move(1);Terminal.tab.title="woo-hoo";Terminal.move(-1)
+
+or equivalently
+
+    Terminal.move(1).tab.title("woo-hoo").move(-1)
+
+
+Scripts
+-------
+
+Scripts (shell commands) run on the spec'ed target...
+
+    Terminal.window(2).tab(1).do_script("echo 'yup'")
+    Terminal.do_script("ls")  # on current window/tab
+    
+If you are running the script in the window with ruby running, the script needs to be valid  ruby, so a naked
+
+    Terminal.do_script("ls")
+
+will fail.  But...
+
+    Terminal.tab.new.do_script("ls")
+    
+should work. Since new tabs show up at the end of the window...  if run this from the first tab in a window, you'll end up back where you were, no matter how many tabs...
+
+Terminal.tab.new.do_script("ls").move(1)
+
+(hint: you can spawn in a new tab this way)
+
+
+You can examine the target...   
+
+    Terminal.window(2).tab(1).target
